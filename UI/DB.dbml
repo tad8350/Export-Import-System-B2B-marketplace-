@@ -1,0 +1,95 @@
+﻿<?xml version="1.0" encoding="utf-8"?><Database Name="MainDatabase" Class="DBDataContext" xmlns="http://schemas.microsoft.com/linqtosql/dbml/2007">
+  <Connection Mode="AppSettings" ConnectionString="Data Source=(LocalDB)\v11.0;AttachDbFilename=|DataDirectory|\MainDatabase.mdf;Integrated Security=True;Connect Timeout=30" SettingsObjectName="UI.Properties.Settings" SettingsPropertyName="MainDatabaseConnectionString" Provider="System.Data.SqlClient" />
+  <Table Name="dbo.Address" Member="Addresses">
+    <Type Name="Address">
+      <Column Name="Customer_id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="Country_id" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="City" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+      <Column Name="Street" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+      <Column Name="House" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+      <Column Name="Postal_code" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+      <Association Name="Country_Address" Member="Country" ThisKey="Country_id" OtherKey="Country_id" Type="Country" IsForeignKey="true" />
+      <Association Name="Customer_Address" Member="Customer" ThisKey="Customer_id" OtherKey="Customer_id" Type="Customer" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Category" Member="Categories">
+    <Type Name="Category">
+      <Column Name="Category_id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="Category_name" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+      <Association Name="Category_Item" Member="Items" ThisKey="Category_id" OtherKey="Category_id" Type="Item" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Country" Member="Countries">
+    <Type Name="Country">
+      <Column Name="Country_id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="Country_name" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+      <Column Name="Region_id" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Association Name="Country_Address" Member="Addresses" ThisKey="Country_id" OtherKey="Country_id" Type="Address" />
+      <Association Name="Region_Country" Member="Region" ThisKey="Region_id" OtherKey="Region_id" Type="Region" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Item_rating" Member="Item_ratings">
+    <Type Name="Item_rating">
+      <Column Name="Item_id" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="Item_rating" Member="Item_rating1" Type="System.Double" DbType="Float" CanBeNull="true" />
+      <Association Name="Item_Item_rating" Member="Item" ThisKey="Item_id" OtherKey="Item_id" Type="Item" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.[Order]" Member="Orders">
+    <Type Name="Order">
+      <Column Name="Oider_id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="Buyer_id" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="Seller_id" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="Item_id" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="Quantity" Type="System.Double" DbType="Float" CanBeNull="true" />
+      <Column Name="Order_date" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Association Name="Customer_Order" Member="Customer" ThisKey="Buyer_id" OtherKey="Customer_id" Type="Customer" IsForeignKey="true" />
+      <Association Name="Item_Order" Member="Item" ThisKey="Oider_id" OtherKey="Item_id" Type="Item" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Region" Member="Regions">
+    <Type Name="Region">
+      <Column Name="Region_id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="Region_name" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+      <Association Name="Region_Country" Member="Countries" ThisKey="Region_id" OtherKey="Region_id" Type="Country" />
+    </Type>
+  </Table>
+  <Table Name="dbo.User_Login" Member="User_Logins">
+    <Type Name="User_Login">
+      <Column Name="User_id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="Pass" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+      <Column Name="User_type" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+      <Association Name="Customer_User_Login" Member="Customer" ThisKey="User_id" OtherKey="Customer_id" Type="Customer" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Customer" Member="Customers">
+    <Type Name="Customer">
+      <Column Name="Customer_id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="Customer_name" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+      <Column Name="Email" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+      <Column Name="Phone_number" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+      <Column Name="Customer_type" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+      <Column Name="Image_path" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+      <Association Name="Customer_Address" Member="Addresses" ThisKey="Customer_id" OtherKey="Customer_id" Type="Address" Cardinality="One" />
+      <Association Name="Customer_Order" Member="Orders" ThisKey="Customer_id" OtherKey="Buyer_id" Type="Order" Cardinality="One" />
+      <Association Name="Customer_Item" Member="Items" ThisKey="Customer_id" OtherKey="Seller_id" Type="Item" />
+      <Association Name="Customer_User_Login" Member="User_Logins" ThisKey="Customer_id" OtherKey="User_id" Type="User_Login" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Item" Member="Items">
+    <Type Name="Item">
+      <Column Name="Item_id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="Seller_id" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="Item_name" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+      <Column Name="Category_id" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="Unit_price" Type="System.Double" DbType="Float" CanBeNull="true" />
+      <Column Name="Quantity" Type="System.Double" DbType="Float" CanBeNull="true" />
+      <Column Name="Image_path" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+      <Column Member="Item_description" Type="System.String" CanBeNull="false" />
+      <Association Name="Item_Order" Member="Orders" ThisKey="Item_id" OtherKey="Oider_id" Type="Order" Cardinality="One" />
+      <Association Name="Item_Item_rating" Member="Item_ratings" ThisKey="Item_id" OtherKey="Item_id" Type="Item_rating" />
+      <Association Name="Customer_Item" Member="Customer" ThisKey="Seller_id" OtherKey="Customer_id" Type="Customer" IsForeignKey="true" />
+      <Association Name="Category_Item" Member="Category" ThisKey="Category_id" OtherKey="Category_id" Type="Category" IsForeignKey="true" />
+    </Type>
+  </Table>
+</Database>
