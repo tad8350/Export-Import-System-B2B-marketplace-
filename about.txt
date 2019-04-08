@@ -1,0 +1,12 @@
+ Skills Used: C# ,
+ Details: The purpose for this Software is to make a simple platform from which the global importers 
+ and the exporters from different countries can easily find specific goods to buy or to sell products at the best possible price from the maximum numbers of available options.
+ 
+
+ 
+ Login:
+
+ username:1 password:pass type:buyer 
+ username:2 password:word type:seller
+
+ This is just a working prototype.UI is not very good.The feature is all we took into account.
